@@ -1,21 +1,33 @@
 package com.nnk.springboot.domain;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name ="Id")
     private Integer id;
-    @NotBlank(message = "Username is mandatory")
+
+    @Column(name ="username")
+    @NotNull
     private String username;
-    @NotBlank(message = "Password is mandatory")
+
+    @Column(name ="password")
+    @NotNull
     private String password;
-    @NotBlank(message = "FullName is mandatory")
+
+    @Column(name ="fullname")
+    @NotNull
     private String fullname;
-    @NotBlank(message = "Role is mandatory")
+
+    @Column(name ="role")
+    @NotNull
     private String role;
 
     public Integer getId() {
