@@ -9,10 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 //import javax.validation.Valid;
 import java.util.List;
@@ -27,11 +24,35 @@ public class UserController {
        return userRepository.findAll();
     }
 
+    @GetMapping("/user/id")
+    public User getUserById(@RequestParam int id){
+        return userRepository.getById(id);
+    }
+
     @PostMapping("/user/add")
     public User addUser(User user) {
         user.setPassword(PasswordHashing.getEncodedPassword(user.getPassword()));
         return userRepository.save(user);
     }
+
+    @PostMapping("user/update")
+    public User updateUser(@RequestBody User user){
+        User u = userRepository.getById(user.getId());
+        u.setUsername(user.getUsername());
+        u.setFullname(user.getFullname());
+        u.setPassword(PasswordHashing.getEncodedPassword(user.getUsername()));
+        u.setRole(user.getUsername());
+    userRepository.save(u);
+    return u;
+    }
+
+    @DeleteMapping("user/delete/id")
+    public Boolean deleteUser(@RequestParam int id){
+    User u = userRepository.getById(id);
+    userRepository.delete(u);
+        return true;
+    }
+
 //
 //    @PostMapping("/user/validate")
 //    public String validate(@Valid User user, BindingResult result, Model model) {
