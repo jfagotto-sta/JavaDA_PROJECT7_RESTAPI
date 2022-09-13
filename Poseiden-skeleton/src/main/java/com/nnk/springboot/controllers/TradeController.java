@@ -1,20 +1,64 @@
-//package com.nnk.springboot.controllers;
-//
-//import com.nnk.springboot.domain.Trade;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.validation.BindingResult;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//
-//import javax.validation.Valid;
-//
-//@Controller
-//public class TradeController {
-//    // TODO: Inject Trade service
-//
+package com.nnk.springboot.controllers;
+
+import com.nnk.springboot.Utils.PasswordHashing;
+import com.nnk.springboot.domain.Trade;
+import com.nnk.springboot.domain.User;
+import com.nnk.springboot.repositories.TradeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+
+@Controller
+public class TradeController {
+
+
+    @Autowired
+    private TradeRepository tradeRepository;
+
+    @GetMapping("/trade/list")
+    @ResponseStatus(code = HttpStatus.OK)
+    public List<Trade> tradeList(){
+        return tradeRepository.findAll();
+    }
+
+    @GetMapping("/trade/id")
+    @ResponseStatus(code = HttpStatus.OK)
+    public Trade tradeById(@RequestParam int id){
+        return tradeRepository.getById(id);
+    }
+
+    @PostMapping("/trade/add")
+    @ResponseStatus(code = HttpStatus.OK)
+    public Trade addTrade(Trade trade) {
+        return tradeRepository.save(trade);
+    }
+
+//    @PostMapping("user/update")
+//    @ResponseStatus(code = HttpStatus.OK)
+//    public User updateUser(@RequestBody User user){
+//        User u = userRepository.getById(user.getId());
+//        u.setUsername(user.getUsername());
+//        u.setFullname(user.getFullname());
+//        u.setPassword(PasswordHashing.getEncodedPassword(user.getUsername()));
+//        u.setRole(user.getUsername());
+//        userRepository.save(u);
+//        return u;
+//    }
+
+    @DeleteMapping("user/delete/id")
+    @ResponseStatus(code = HttpStatus.OK)
+    public Boolean deleteTrade(@RequestParam int id){
+        Trade t = tradeRepository.getById(id);
+        tradeRepository.delete(t);
+        return true;
+    }
+
 //    @RequestMapping("/trade/list")
 //    public String home(Model model)
 //    {
@@ -51,4 +95,4 @@
 //        // TODO: Find Trade by Id and delete the Trade, return to Trade list
 //        return "redirect:/trade/list";
 //    }
-//}
+}

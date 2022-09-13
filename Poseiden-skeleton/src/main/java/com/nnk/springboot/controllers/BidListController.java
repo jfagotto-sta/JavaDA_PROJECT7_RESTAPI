@@ -1,21 +1,67 @@
-//package com.nnk.springboot.controllers;
-//
-//import com.nnk.springboot.domain.BidList;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.ui.Model;
-//import org.springframework.validation.BindingResult;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//
-////import javax.validation.Valid;
-//
-//
-//@Controller
-//public class BidListController {
-//    // TODO: Inject Bid service
-//
+package com.nnk.springboot.controllers;
+
+import com.nnk.springboot.Utils.PasswordHashing;
+import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.domain.User;
+import com.nnk.springboot.repositories.BidListRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+//import javax.validation.Valid;
+
+
+@Controller
+public class BidListController {
+
+   @Autowired
+   private BidListRepository bidListRepository;
+
+    @GetMapping("/bidlist/list")
+    @ResponseStatus(code = HttpStatus.OK)
+    public List<BidList> bidList(){
+        return bidListRepository.findAll();
+    }
+
+    @GetMapping("/bidlist/id")
+    @ResponseStatus(code = HttpStatus.OK)
+    public BidList getUserById(@RequestParam int id){
+        return bidListRepository.getById(id);
+    }
+
+    @PostMapping("/bidlist/add")
+    @ResponseStatus(code = HttpStatus.OK)
+    public BidList addUser(BidList bidList) {
+        return bidListRepository.save(bidList);
+    }
+
+//    @PostMapping("user/update")
+//    @ResponseStatus(code = HttpStatus.OK)
+//    public User updateUser(@RequestBody User user){
+//        User u = userRepository.getById(user.getId());
+//        u.setUsername(user.getUsername());
+//        u.setFullname(user.getFullname());
+//        u.setPassword(PasswordHashing.getEncodedPassword(user.getUsername()));
+//        u.setRole(user.getUsername());
+//        userRepository.save(u);
+//        return u;
+//    }
+
+    @DeleteMapping("bidlist/delete/id")
+    @ResponseStatus(code = HttpStatus.OK)
+    public Boolean deleteBidList(@RequestParam int id){
+        BidList b = bidListRepository.getById(id);
+        bidListRepository.delete(b);
+        return true;
+    }
+
+
+
 //    @RequestMapping("/bidList/list")
 //    public String home(Model model)
 //    {
@@ -52,4 +98,4 @@
 //        // TODO: Find Bid by Id and delete the bid, return to Bid list
 //        return "redirect:/bidList/list";
 //    }
-//}
+}
