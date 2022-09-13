@@ -5,6 +5,7 @@ import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.RuleNameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,22 +24,26 @@ public class RuleNameController {
     private RuleNameRepository ruleNameRepository;
 
     @RequestMapping("/ruleName/list")
+    @ResponseStatus(code = HttpStatus.OK)
     public List<RuleName> ruleNameList( )
     {
         return ruleNameRepository.findAll();
     }
 
     @PostMapping("/ruleName/add")
+    @ResponseStatus(code = HttpStatus.OK)
     public RuleName addRuleForm(RuleName ruleName) {
         return ruleNameRepository.save(ruleName);
     }
 
     @GetMapping("/rulename/id")
+    @ResponseStatus(code = HttpStatus.OK)
     public RuleName getRulenameById(@RequestParam int id){
         return ruleNameRepository.getById(id);
     }
 
     @PostMapping("rulename/update")
+    @ResponseStatus(code = HttpStatus.OK)
     public RuleName updateUser(@RequestBody RuleName ruleName){
         RuleName r = ruleNameRepository.getById(ruleName.getId());
        r.setDescription(ruleName.getDescription());
@@ -52,6 +57,7 @@ public class RuleNameController {
     }
 
     @DeleteMapping("rulename/delete/id")
+    @ResponseStatus(code = HttpStatus.OK)
     public Boolean deleteRulename(@RequestParam int id){
         RuleName r = ruleNameRepository.getById(id);
         ruleNameRepository.delete(r);

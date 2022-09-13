@@ -5,6 +5,7 @@ import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,22 +21,26 @@ public class UserController {
     private UserRepository userRepository;
 
     @GetMapping("/user/list")
+    @ResponseStatus(code = HttpStatus.OK)
     public List<User>  usersList(){
        return userRepository.findAll();
     }
 
     @GetMapping("/user/id")
+    @ResponseStatus(code = HttpStatus.OK)
     public User getUserById(@RequestParam int id){
         return userRepository.getById(id);
     }
 
     @PostMapping("/user/add")
+    @ResponseStatus(code = HttpStatus.OK)
     public User addUser(User user) {
         user.setPassword(PasswordHashing.getEncodedPassword(user.getPassword()));
         return userRepository.save(user);
     }
 
     @PostMapping("user/update")
+    @ResponseStatus(code = HttpStatus.OK)
     public User updateUser(@RequestBody User user){
         User u = userRepository.getById(user.getId());
         u.setUsername(user.getUsername());
@@ -47,6 +52,7 @@ public class UserController {
     }
 
     @DeleteMapping("user/delete/id")
+    @ResponseStatus(code = HttpStatus.OK)
     public Boolean deleteUser(@RequestParam int id){
     User u = userRepository.getById(id);
     userRepository.delete(u);
