@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 import java.util.List;
 
 
@@ -34,9 +34,10 @@ public class RuleNameController {
     }
 
     @GetMapping("/rulename/id")
-    public RuleName getUserById(@RequestParam int id){
+    public RuleName getRulenameById(@RequestParam int id){
         return ruleNameRepository.getById(id);
     }
+
     @PostMapping("rulename/update")
     public RuleName updateUser(@RequestBody RuleName ruleName){
         RuleName r = ruleNameRepository.getById(ruleName.getId());
