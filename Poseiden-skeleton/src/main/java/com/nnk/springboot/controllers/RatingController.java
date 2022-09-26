@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -20,33 +21,51 @@ public class RatingController {
     private RatingRepository ratingRepository;
 
     @RequestMapping("/rating/list")
-    @ResponseStatus(code = HttpStatus.OK)
-    public List<Rating> ratingList( )
+    public String home(Model model)
     {
-        return ratingRepository.findAll();
+        model.addAttribute("ratings", ratingRepository.findAll());
+        return "rating/list";
     }
 
-    @GetMapping("/rating/id")
-    @ResponseStatus(code = HttpStatus.OK)
-    public Rating getUserById(@RequestParam int id){
-        return ratingRepository.getById(id);
+    @GetMapping("/rating/add")
+    public String addRating(Rating rating) {
+        return "rating/add";
     }
 
-    @PostMapping("/rating/add")
-    @ResponseStatus(code = HttpStatus.OK)
-    public Rating addRating(Rating rating) {
-        return ratingRepository.save(rating);
+    @PostMapping("/rating/validate")
+    public String validate(@Valid Rating rating, BindingResult result, Model model) {
+        if (!result.hasErrors()) {
+            ratingRepository.save(rating);
+            model.addAttribute("ratings", ratingRepository.findAll());
+            return "redirect:/rating/list";
+        }
+        return "rating/add";
     }
 
-    @PostMapping("rating/update")
-    @ResponseStatus(code = HttpStatus.OK)
-    public Rating updateUser(@RequestBody Rating rating){
-        Rating r = ratingRepository.getById(rating.getId());
-        r.setMoodyRating(r.getMoodyRating());
-        r.setFitchRating(r.getFitchRating());
-        r.setSandPRating(r.getSandPRating());
-        r.setOrderNumber(r.getOrderNumber());
-        return r;
+    @GetMapping("/rating/update/{id}")
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+        Rating rating = ratingRepository.getById(id);
+        model.addAttribute("rating", rating);
+        return "rating/update";
+    }
+
+    @PostMapping("/rating/update/{id}")
+    public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating,
+                               BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "rating/update";
+        }
+        rating.setId(id);
+        ratingRepository.save(rating);
+        model.addAttribute("ratings", ratingRepository.findAll());
+        return "redirect:/rating/list";
+    }
+
+    @GetMapping("/rating/delete/{id}")
+    public String deleteRating(@PathVariable("id") Integer id, Model model) {
+        ratingRepository.deleteById(id);
+        model.addAttribute("ratings", ratingRepository.findAll());
+        return "redirect:/rating/list";
     }
 }
 
