@@ -16,14 +16,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@CrossOrigin(origins="http://localhost:4200")
 public class UserController {
     @Autowired
     private UserRepository userRepository;
 
     @GetMapping("/user/list")
     @ResponseStatus(code = HttpStatus.OK)
-    public List<User>  usersList(){
-       return userRepository.findAll();
+    public List<User>  usersList(Model model){
+       //
+        model.addAttribute("users", userRepository.findAll());
+        return userRepository.findAll();
     }
 
     @GetMapping("/user/id")
@@ -39,24 +42,38 @@ public class UserController {
         return userRepository.save(user);
     }
 
+//    @PostMapping("user/update")
+//    @ResponseStatus(code = HttpStatus.OK)
+//    public User updateUser(@RequestBody User user){
+//        User u = userRepository.getById(user.getId());
+//        u.setUsername(user.getUsername());
+//        u.setFullname(user.getFullname());
+//        u.setPassword(PasswordHashing.getEncodedPassword(user.getUsername()));
+//        u.setRole(user.getUsername());
+//    userRepository.save(u);
+//    return u;
+//    }
+
     @PostMapping("user/update")
     @ResponseStatus(code = HttpStatus.OK)
-    public User updateUser(@RequestBody User user){
-        User u = userRepository.getById(user.getId());
-        u.setUsername(user.getUsername());
-        u.setFullname(user.getFullname());
-        u.setPassword(PasswordHashing.getEncodedPassword(user.getUsername()));
-        u.setRole(user.getUsername());
-    userRepository.save(u);
-    return u;
+    public User updateUser(@RequestParam int id){
+        User u = userRepository.getById(id);
+        //u.setUsername(user.getUsername());
+        //u.setFullname(user.getFullname());
+        //u.setPassword(PasswordHashing.getEncodedPassword(user.getUsername()));
+        //u.setRole(user.getUsername());
+        //userRepository.save(u);
+        //return u;
+        return null;
     }
 
-    @DeleteMapping("user/delete/id")
+    @GetMapping("user/delete/{id}")
     @ResponseStatus(code = HttpStatus.OK)
-    public Boolean deleteUser(@RequestParam int id){
-    User u = userRepository.getById(id);
-    userRepository.delete(u);
-        return true;
+    public String deleteUser(@PathVariable("id") Integer id, Model model){
+        User u = userRepository.getById(id);
+        userRepository.delete(u);
+        model.addAttribute("users", userRepository.findAll());
+        return "redirect:/user/list";
     }
 
 //

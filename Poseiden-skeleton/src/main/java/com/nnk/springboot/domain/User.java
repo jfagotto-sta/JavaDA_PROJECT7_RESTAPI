@@ -15,19 +15,15 @@ public class User implements Serializable {
     private Integer id;
 
     @Column(name ="username")
-    @NotNull
     private String username;
 
     @Column(name ="password")
-    @NotNull
     private String password;
 
     @Column(name ="fullname")
-    @NotNull
     private String fullname;
 
     @Column(name ="role")
-    @NotNull
     private String role;
 
     public Integer getId() {
@@ -69,4 +65,6 @@ public class User implements Serializable {
     public void setRole(String role) {
         this.role = role;
     }
+
+
 }
