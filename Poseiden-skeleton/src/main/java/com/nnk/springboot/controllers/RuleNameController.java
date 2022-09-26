@@ -12,81 +12,62 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
 import java.util.List;
 
 
 
 @Controller
 public class RuleNameController {
-    // TODO: Inject RuleName service
 
     @Autowired
     private RuleNameRepository ruleNameRepository;
 
     @RequestMapping("/ruleName/list")
-    @ResponseStatus(code = HttpStatus.OK)
-    public List<RuleName> ruleNameList( )
+    public String home(Model model)
     {
-        return ruleNameRepository.findAll();
+        model.addAttribute("ruleNames", ruleNameRepository.findAll());
+        return "ruleName/list";
     }
 
-    @PostMapping("/ruleName/add")
-    @ResponseStatus(code = HttpStatus.OK)
-    public RuleName addRuleForm(RuleName ruleName) {
-        return ruleNameRepository.save(ruleName);
+    @GetMapping("/ruleName/add")
+    public String addRuleName(RuleName ruleName) {
+        return "ruleName/add";
     }
 
-    @GetMapping("/rulename/id")
-    @ResponseStatus(code = HttpStatus.OK)
-    public RuleName getRulenameById(@RequestParam int id){
-        return ruleNameRepository.getById(id);
+    @PostMapping("/ruleName/validate")
+    public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {
+        if (!result.hasErrors()) {
+            ruleNameRepository.save(ruleName);
+            model.addAttribute("ruleNames", ruleNameRepository.findAll());
+            return "redirect:/ruleName/list";
+        }
+        return "ruleName/add";
     }
 
-    @PostMapping("rulename/update")
-    @ResponseStatus(code = HttpStatus.OK)
-    public RuleName updateUser(@RequestBody RuleName ruleName){
-        RuleName r = ruleNameRepository.getById(ruleName.getId());
-       r.setDescription(ruleName.getDescription());
-        r.setName(ruleName.getName());
-        r.setjSon(ruleName.getjSon());
-        r.setTemplate(ruleName.getTemplate());
-        r.setSqlPart(ruleName.getSqlPart());
-        r.setSqlStr(ruleName.getSqlStr());
-        ruleNameRepository.save(r);
-        return r;
+    @GetMapping("/ruleName/update/{id}")
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+        RuleName ruleName = ruleNameRepository.getById(id);
+        model.addAttribute("ruleName", ruleName);
+        return "ruleName/update";
     }
 
-    @DeleteMapping("rulename/delete/id")
-    @ResponseStatus(code = HttpStatus.OK)
-    public Boolean deleteRulename(@RequestParam int id){
-        RuleName r = ruleNameRepository.getById(id);
-        ruleNameRepository.delete(r);
-        return true;
+    @PostMapping("/ruleName/update/{id}")
+    public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName,
+                                 BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "ruleName/update";
+        }
+        ruleName.setId(id);
+        ruleNameRepository.save(ruleName);
+        model.addAttribute("ruleNames", ruleNameRepository.findAll());
+        return "redirect:/ruleName/list";
     }
 
-
-//    @PostMapping("/ruleName/validate")
-//    public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {
-//        // TODO: check data valid and save to db, after saving return RuleName list
-//        return "ruleName/add";
-//    }
-//
-//    @GetMapping("/ruleName/update/{id}")
-//    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-//        // TODO: get RuleName by Id and to model then show to the form
-//        return "ruleName/update";
-//    }
-//
-//    @PostMapping("/ruleName/update/{id}")
-//    public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName,
-//                             BindingResult result, Model model) {
-//        // TODO: check required fields, if valid call service to update RuleName and return RuleName list
-//        return "redirect:/ruleName/list";
-//    }
-//
-//    @GetMapping("/ruleName/delete/{id}")
-//    public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
-//        // TODO: Find RuleName by Id and delete the RuleName, return to Rule list
-//        return "redirect:/ruleName/list";
-//    }
+    @GetMapping("/ruleName/delete/{id}")
+    public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
+        ruleNameRepository.deleteById(id);
+        model.addAttribute("ruleNames", ruleNameRepository.findAll());
+        return "redirect:/ruleName/list";
+    }
 }
