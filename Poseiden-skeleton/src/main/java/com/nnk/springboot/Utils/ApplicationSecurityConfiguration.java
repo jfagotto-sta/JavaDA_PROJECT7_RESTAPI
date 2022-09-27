@@ -14,8 +14,15 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers("/user/add").permitAll()
                 .antMatchers(HttpMethod.GET,"/user/list").permitAll()
+                .antMatchers(HttpMethod.POST,"/user/add").permitAll()
+                .antMatchers(HttpMethod.POST,"/user/update").permitAll()
                 .antMatchers(HttpMethod.GET,"/user/delete/*").permitAll()
+
+                .antMatchers(HttpMethod.GET,"/rulename/list").permitAll()
                 .anyRequest().authenticated();
+
+
     }
 }
