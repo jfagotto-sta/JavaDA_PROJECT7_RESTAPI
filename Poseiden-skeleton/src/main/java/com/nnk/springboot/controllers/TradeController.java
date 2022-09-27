@@ -22,46 +22,6 @@ public class TradeController {
    private TradeRepository tradeRepository;
 
 
-//    @Autowired
-//    private TradeRepository tradeRepository;
-//
-//    @GetMapping("/trade/list")
-//    @ResponseStatus(code = HttpStatus.OK)
-//    public List<Trade> tradeList(){
-//        return tradeRepository.findAll();
-//    }
-//
-//    @GetMapping("/trade/id")
-//    @ResponseStatus(code = HttpStatus.OK)
-//    public Trade tradeById(@RequestParam int id){
-//        return tradeRepository.getById(id);
-//    }
-//
-//    @PostMapping("/trade/add")
-//    @ResponseStatus(code = HttpStatus.OK)
-//    public Trade addTrade(Trade trade) {
-//        return tradeRepository.save(trade);
-//    }
-//
-////    @PostMapping("user/update")
-////    @ResponseStatus(code = HttpStatus.OK)
-////    public User updateUser(@RequestBody User user){
-////        User u = userRepository.getById(user.getId());
-////        u.setUsername(user.getUsername());
-////        u.setFullname(user.getFullname());
-////        u.setPassword(PasswordHashing.getEncodedPassword(user.getUsername()));
-////        u.setRole(user.getUsername());
-////        userRepository.save(u);
-////        return u;
-////    }
-//
-//    @DeleteMapping("trade/delete/id")
-//    @ResponseStatus(code = HttpStatus.OK)
-//    public Boolean deleteTrade(@RequestParam int id){
-//        Trade t = tradeRepository.getById(id);
-//        tradeRepository.delete(t);
-//        return true;
-//    }
 
     @GetMapping("/trade/list")
     @ResponseStatus(code = HttpStatus.OK)
