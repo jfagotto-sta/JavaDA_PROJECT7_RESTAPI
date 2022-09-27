@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 //import javax.validation.Valid;
@@ -22,80 +23,51 @@ public class BidListController {
    @Autowired
    private BidListRepository bidListRepository;
 
-    @GetMapping("/bidlist/list")
-    @ResponseStatus(code = HttpStatus.OK)
-    public List<BidList> bidList(){
-        return bidListRepository.findAll();
+    @RequestMapping("/bidList/list")
+    public String home(Model model)
+    {
+        model.addAttribute("bidLists", bidListRepository.findAll());
+        return "bidList/list";
     }
 
-    @GetMapping("/bidlist/id")
-    @ResponseStatus(code = HttpStatus.OK)
-    public BidList getUserById(@RequestParam int id){
-        return bidListRepository.getById(id);
+    @GetMapping("/bidList/add")
+    public String addBidList(BidList bidList) {
+        return "bidList/add";
     }
 
-    @PostMapping("/bidlist/add")
-    @ResponseStatus(code = HttpStatus.OK)
-    public BidList addUser(BidList bidList) {
-        return bidListRepository.save(bidList);
+    @PostMapping("/bidList/validate")
+    public String validate(@Valid BidList bidList, BindingResult result, Model model) {
+        if (!result.hasErrors()) {
+            bidListRepository.save(bidList);
+            model.addAttribute("bidLists", bidListRepository.findAll());
+            return "redirect:/bidList/list";
+        }
+        return "bidList/add";
     }
 
-//    @PostMapping("user/update")
-//    @ResponseStatus(code = HttpStatus.OK)
-//    public User updateUser(@RequestBody User user){
-//        User u = userRepository.getById(user.getId());
-//        u.setUsername(user.getUsername());
-//        u.setFullname(user.getFullname());
-//        u.setPassword(PasswordHashing.getEncodedPassword(user.getUsername()));
-//        u.setRole(user.getUsername());
-//        userRepository.save(u);
-//        return u;
-//    }
-
-    @DeleteMapping("bidlist/delete/id")
-    @ResponseStatus(code = HttpStatus.OK)
-    public Boolean deleteBidList(@RequestParam int id){
-        BidList b = bidListRepository.getById(id);
-        bidListRepository.delete(b);
-        return true;
+    @GetMapping("/bidList/update/{id}")
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+        BidList bidList = bidListRepository.getById(id);
+        model.addAttribute("bidList", bidList);
+        return "bidList/update";
     }
 
+    @PostMapping("/bidList/update/{id}")
+    public String updateBidList(@PathVariable("id") Integer id, @Valid BidList bidList,
+                                BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "bidList/update";
+        }
+        bidList.setBid(id);
+        bidListRepository.save(bidList);
+        model.addAttribute("bidLists", bidListRepository.findAll());
+        return "redirect:/bidList/list";
+    }
 
-
-//    @RequestMapping("/bidList/list")
-//    public String home(Model model)
-//    {
-//        // TODO: call service find all bids to show to the view
-//        return "bidList/list";
-//    }
-//
-//    @GetMapping("/bidList/add")
-//    public String addBidForm(BidList bid) {
-//        return "bidList/add";
-//    }
-//
-//    @PostMapping("/bidList/validate")
-//    public String validate(@Valid BidList bid, BindingResult result, Model model) {
-//        // TODO: check data valid and save to db, after saving return bid list
-//        return "bidList/add";
-//    }
-//
-//    @GetMapping("/bidList/update/{id}")
-//    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-//        // TODO: get Bid by Id and to model then show to the form
-//        return "bidList/update";
-//    }
-//
-//    @PostMapping("/bidList/update/{id}")
-//    public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList,
-//                             BindingResult result, Model model) {
-//        // TODO: check required fields, if valid call service to update Bid and return list Bid
-//        return "redirect:/bidList/list";
-//    }
-//
-//    @GetMapping("/bidList/delete/{id}")
-//    public String deleteBid(@PathVariable("id") Integer id, Model model) {
-//        // TODO: Find Bid by Id and delete the bid, return to Bid list
-//        return "redirect:/bidList/list";
-//    }
+    @GetMapping("/bidList/delete/{id}")
+    public String deleteBidList(@PathVariable("id") Integer id, Model model) {
+        bidListRepository.deleteById(id);
+        model.addAttribute("bidLists", bidListRepository.findAll());
+        return "redirect:/bidList/list";
+    }
 }

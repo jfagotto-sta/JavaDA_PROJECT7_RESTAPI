@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 //import javax.validation.Valid;
@@ -22,40 +23,51 @@ public class CurveController {
     private CurvePointRepository curvePointRepository;
 
 
-    @GetMapping("/curvepoint/list")
-    @ResponseStatus(code = HttpStatus.OK)
-    public List<CurvePoint> usersList(){
-        return curvePointRepository.findAll();
+    @RequestMapping("/curvePoint/list")
+    public String home(Model model)
+    {
+        model.addAttribute("curvePoints", curvePointRepository.findAll());
+        return "curvePoint/list";
     }
 
-    @GetMapping("/curvepoint/id")
-    @ResponseStatus(code = HttpStatus.OK)
-    public CurvePoint getUserById(@RequestParam int id){
-        return curvePointRepository.getById(id);
+    @GetMapping("/curvePoint/add")
+    public String addCurvePoint(CurvePoint curvePoint) {
+        return "curvePoint/add";
     }
 
-    @PostMapping("/curvepoint/add")
-    @ResponseStatus(code = HttpStatus.OK)
-    public CurvePoint addUser(CurvePoint curvePoint) {
-        return curvePointRepository.save(curvePoint);
+    @PostMapping("/curvePoint/validate")
+    public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
+        if (!result.hasErrors()) {
+            curvePointRepository.save(curvePoint);
+            model.addAttribute("curvePoints", curvePointRepository.findAll());
+            return "redirect:/curvePoint/list";
+        }
+        return "curvePoint/add";
     }
 
-    @PostMapping("curvepoint/update")
-    @ResponseStatus(code = HttpStatus.OK)
-    public CurvePoint updateUser(@RequestBody CurvePoint curvePoint){
-        CurvePoint c = curvePointRepository.getById(curvePoint.getId());
-      c.setAsOfDate(curvePoint.getAsOfDate());
-        c.setCreationDate(curvePoint.getCreationDate());
-        c.setTerm(curvePoint.getTerm());
-        curvePointRepository.save(c);
-        return c;
+    @GetMapping("/curvePoint/update/{id}")
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+        CurvePoint curvePoint = curvePointRepository.getById(id);
+        model.addAttribute("curvePoint", curvePoint);
+        return "curvePoint/update";
     }
 
-    @DeleteMapping("curvepoint/delete/id")
-    @ResponseStatus(code = HttpStatus.OK)
-    public Boolean deleteCurvepoint(@RequestParam int id){
-        CurvePoint c = curvePointRepository.getById(id);
-        curvePointRepository.delete(c);
-        return true;
+    @PostMapping("/curvePoint/update/{id}")
+    public String updateCurvePoint(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
+                                   BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "curvePoint/update";
+        }
+        curvePoint.setId(id);
+        curvePointRepository.save(curvePoint);
+        model.addAttribute("curvePoints", curvePointRepository.findAll());
+        return "redirect:/curvePoint/list";
+    }
+
+    @GetMapping("/curvePoint/delete/{id}")
+    public String deleteCurvePoint(@PathVariable("id") Integer id, Model model) {
+        curvePointRepository.deleteById(id);
+        model.addAttribute("curvePoints", curvePointRepository.findAll());
+        return "redirect:/curvePoint/list";
     }
 }
