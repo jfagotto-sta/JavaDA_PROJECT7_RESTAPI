@@ -17,6 +17,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                 .antMatchers("/user/add").permitAll()
                 .antMatchers(HttpMethod.GET,"/user/list").permitAll()
                 .antMatchers(HttpMethod.POST,"/user/add").permitAll()
+                .antMatchers(HttpMethod.POST,"/user/validate").permitAll()
                 .antMatchers(HttpMethod.POST,"/user/update").permitAll()
                 .antMatchers(HttpMethod.GET,"/user/delete/*").permitAll()
 

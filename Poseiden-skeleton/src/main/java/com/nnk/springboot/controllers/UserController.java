@@ -1,6 +1,7 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.Utils.PasswordHashing;
+import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 //import javax.validation.Valid;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -34,26 +36,40 @@ public class UserController {
         return userRepository.getById(id);
     }
 
-    @PostMapping("/user/add")
-    @ResponseStatus(code = HttpStatus.OK)
-    public User addUser(User user) {
-        user.setPassword(PasswordHashing.getEncodedPassword(user.getPassword()));
-        return userRepository.save(user);
+    @GetMapping("/user/add")
+    public String addUser(User user) {
+        return "user/add";
+    }
+
+    @PostMapping("/user/validate")
+    public String validate(@Valid User user, BindingResult result, Model model) {
+        if (!result.hasErrors()) {
+            userRepository.save(user);
+            model.addAttribute("users", userRepository.findAll());
+            return "redirect:/user/list";
+        }
+        return "user/add";
     }
 
 
 
-    @PostMapping("user/update")
-    @ResponseStatus(code = HttpStatus.OK)
-    public User updateUser(@RequestParam int id){
-        User u = userRepository.getById(id);
-        //u.setUsername(user.getUsername());
-        //u.setFullname(user.getFullname());
-        //u.setPassword(PasswordHashing.getEncodedPassword(user.getUsername()));
-        //u.setRole(user.getUsername());
-        //userRepository.save(u);
-        //return u;
-        return null;
+    @PostMapping("/user/update/{id}")
+    public String updateRating(@PathVariable("id") Integer id, @Valid User user,
+                               BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "user/update";
+        }
+        user.setId(id);
+        userRepository.save(user);
+        model.addAttribute("users", userRepository.findAll());
+        return "redirect:/user/list";
+    }
+
+    @GetMapping("/user/update/{id}")
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+        User user = userRepository.getById(id);
+        model.addAttribute("user", user);
+        return "user/update";
     }
 
     @GetMapping("user/delete/{id}")

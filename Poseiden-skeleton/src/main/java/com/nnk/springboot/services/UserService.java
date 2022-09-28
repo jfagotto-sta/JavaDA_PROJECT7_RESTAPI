@@ -31,5 +31,5 @@ public class UserService {
         User u = userRepository.getById(id);
         userRepository.delete(u);
     }
-    
+
 }
