@@ -1,46 +1,50 @@
-//package com.nnk.springboot;
-//
-//import com.nnk.springboot.domain.Trade;
-//import com.nnk.springboot.repositories.TradeRepository;
-//import org.junit.Assert;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import org.springframework.test.context.junit4.SpringRunner;
-//
-//import java.util.List;
-//import java.util.Optional;
-//
-//@RunWith(SpringRunner.class)
-//@SpringBootTest
-//public class TradeTests {
-//
-//	@Autowired
-//	private TradeRepository tradeRepository;
-//
-//	@Test
-//	public void tradeTest() {
-//		Trade trade = new Trade("Trade Account", "Type");
-//
-//		// Save
-//		trade = tradeRepository.save(trade);
-//		Assert.assertNotNull(trade.getTradeId());
-//		Assert.assertTrue(trade.getAccount().equals("Trade Account"));
-//
-//		// Update
-//		trade.setAccount("Trade Account Update");
-//		trade = tradeRepository.save(trade);
-//		Assert.assertTrue(trade.getAccount().equals("Trade Account Update"));
-//
-//		// Find
-//		List<Trade> listResult = tradeRepository.findAll();
-//		Assert.assertTrue(listResult.size() > 0);
+package com.nnk.springboot;
+
+import com.nnk.springboot.domain.Trade;
+import com.nnk.springboot.repositories.TradeRepository;
+
+import com.nnk.springboot.services.TradeService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+
+@SpringBootTest
+public class TradeTests {
+
+	@Autowired
+	private TradeService tradeService;
+
+	@Test
+	public void tradeTest() {
+		Trade trade = new Trade();
+		trade.setType("a");
+		trade.setAccount("b");
+
+		// Save
+        tradeService.saveTrade(trade);
+		Trade t = tradeService.getTradeById(1);
+        assertNotNull(t);
+		assertTrue(t.getAccount().equals("b"));
+
+		// Update
+		trade.setAccount("Trade Account Update");
+		tradeService.saveTrade(trade);
+		assertTrue(trade.getAccount().equals("Trade Account Update"));
+
+		// Find
+		List<Trade> listResult = tradeService.getAllTrades();
+		assertTrue(listResult.size() > 0);
 //
 //		// Delete
-//		Integer id = trade.getTradeId();
-//		tradeRepository.delete(trade);
-//		Optional<Trade> tradeList = tradeRepository.findById(id);
-//		Assert.assertFalse(tradeList.isPresent());
-//	}
-//}
+//		Integer id = trade.getId();
+//		tradeService.getTradeById(id);
+//
+//		assertNull(tradeService.getTradeById(1));	}
+} }

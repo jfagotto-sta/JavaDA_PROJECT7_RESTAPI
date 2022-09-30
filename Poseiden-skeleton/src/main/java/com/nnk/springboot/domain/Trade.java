@@ -80,6 +80,13 @@ public class Trade implements Serializable {
     @Column(name ="side")
     private String side;
 
+    public Trade(String trade_account, String type) {
+    }
+
+    public Trade() {
+
+    }
+
     public Integer getId() {
         return id;
     }
