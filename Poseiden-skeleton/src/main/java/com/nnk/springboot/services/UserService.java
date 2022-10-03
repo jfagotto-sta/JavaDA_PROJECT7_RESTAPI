@@ -24,12 +24,15 @@ public class UserService {
 
     public void saveNewUser(User user){
         user.setPassword(PasswordHashing.getEncodedPassword(user.getPassword()));
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
     }
 
     public void deleteUser(Integer id){
-        User u = userRepository.getById(id);
-        userRepository.delete(u);
+    //   Iterable<User> u = (Iterable<User>) userRepository.getById(id);
+        userRepository.deleteById(id);
     }
 
+    public void deleteAll(){
+        userRepository.deleteAll();
+    }
 }

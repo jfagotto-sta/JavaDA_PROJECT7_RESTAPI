@@ -33,6 +33,10 @@ public class RuleNameService {
         ruleNameRepository.delete(r);
     }
 
+    public void deleteAll(){
+        ruleNameRepository.deleteAll();
+    }
+
 
 
 }

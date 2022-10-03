@@ -33,6 +33,9 @@ public class CurvePointService {
         curvePointRepository.delete(c);
     }
 
+    public void deleteAll(){
+        curvePointRepository.deleteAll();
+    }
 
 
 }

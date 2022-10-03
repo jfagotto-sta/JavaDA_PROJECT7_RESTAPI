@@ -33,6 +33,10 @@ public class RatingService {
         ratingRepository.delete(r);
     }
 
+    public void deleteAll(){
+        ratingRepository.deleteAll();
+    }
+
 
 
 }

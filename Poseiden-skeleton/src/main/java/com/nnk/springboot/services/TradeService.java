@@ -32,4 +32,8 @@ public class TradeService {
         Trade t = tradeRepository.getById(id);
         tradeRepository.delete(t);
     }
+
+    public void deleteAll(){
+        tradeRepository.deleteAll();
+    }
 }
