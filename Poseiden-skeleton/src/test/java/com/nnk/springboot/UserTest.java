@@ -3,6 +3,7 @@ package com.nnk.springboot;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.services.UserService;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +22,7 @@ public class UserTest {
     @Autowired
     private UserService userService;
 
-	@BeforeAll
+	@BeforeEach
 	public void deleteall() {
 		userService.deleteAll();
 	}
@@ -33,22 +34,22 @@ public class UserTest {
 		u.setFullname("b");
         u.setPassword("ab");
 
-		// Save
+	// Save
        userService.saveNewUser(u);
-	   User u2 = userService.getUserById(2);
-       assertNotNull(u2);
+	User u2 = userService.getUserById(2);
+	assertNotNull(u2);
 
-		// Update
+	// Update
 		u.setFullname("test");
 		userService.saveNewUser(u);
-		assertTrue(u.getFullname().equals("test"));
+	assertTrue(u.getFullname().equals("test"));
 
-		// Find
-		List<User> listResult = userService.getAllUsers();
-		assertTrue(listResult.size() > 0);
+	// Find
+	List<User> listResult = userService.getAllUsers();
+	assertTrue(listResult.size() > 0);
 
-		// Delete
+	// Delete
 	    userService.deleteUser(u.getId());
-		assertTrue(userService.getAllUsers().size()==0);	}
+	assertTrue(userService.getAllUsers().size()==0);	}
 }
 

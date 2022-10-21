@@ -5,6 +5,7 @@ import com.nnk.springboot.domain.User;
 import com.nnk.springboot.services.CurvePointService;
 import com.nnk.springboot.services.UserService;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +24,7 @@ public class CurvePointTest {
     @Autowired
     private CurvePointService curvePointService;
 
-    @BeforeAll
+    @BeforeEach
     public void deleteall() {
         curvePointService.deleteAll();
     }
@@ -47,7 +48,7 @@ public class CurvePointTest {
         assertTrue(listResult.size() > 0);
 
         // Delete
-        curvePointService.deleteCurvePoint(c.getId());
+        curvePointService.deleteCurvePoint(c.getCurveId());
         assertTrue(curvePointService.getAllCurvePoints().size()==0);	}
 }
 

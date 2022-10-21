@@ -5,6 +5,7 @@ import com.nnk.springboot.domain.User;
 import com.nnk.springboot.services.RuleNameService;
 import com.nnk.springboot.services.UserService;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +24,7 @@ public class Ruletest {
     @Autowired
     private RuleNameService ruleNameService;
 
-    @BeforeAll
+    @BeforeEach
     public void deleteall() {
         ruleNameService.deleteAll();
     }

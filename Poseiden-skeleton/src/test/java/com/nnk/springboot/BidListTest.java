@@ -51,7 +51,7 @@ public class BidListTest {
         assertTrue(listResult.size() > 0);
 
         // Delete
-        bidListService.deleteBidList(b.getId());
+        bidListService.deleteBidList(b.getBidListId());
         assertTrue(bidListService.getAllBidList().size()==0);	}
 }
 

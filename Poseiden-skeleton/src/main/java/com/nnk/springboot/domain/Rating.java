@@ -13,8 +13,8 @@ public class Rating implements Serializable {
     @Column(name ="Id")
     private Integer id;
 
-    @Column(name = "moodyRating")
-    private String moodyRating;
+    @Column(name = "moodysRating")
+    private String moodysRating;
 
     @Column(name = "sandPRating")
     private String sandPRating;
@@ -34,12 +34,12 @@ public class Rating implements Serializable {
         this.id = id;
     }
 
-    public String getMoodyRating() {
-        return moodyRating;
+    public String getMoodysRating() {
+        return moodysRating;
     }
 
-    public void setMoodyRating(String moodyRating) {
-        this.moodyRating = moodyRating;
+    public void setMoodysRating(String moodysRating) {
+        this.moodysRating = moodysRating;
     }
 
     public String getSandPRating() {

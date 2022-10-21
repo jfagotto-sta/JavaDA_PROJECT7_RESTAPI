@@ -20,7 +20,7 @@ public class RuleName implements Serializable {
     private String description;
 
     @Column(name = "json")
-    private String jSon;
+    private String json;
 
     @Column(name = "template")
     private String template;
@@ -55,12 +55,12 @@ public class RuleName implements Serializable {
         this.description = description;
     }
 
-    public String getjSon() {
-        return jSon;
+    public String getJson() {
+        return json;
     }
 
-    public void setjSon(String jSon) {
-        this.jSon = jSon;
+    public void setJson(String json) {
+        this.json = json;
     }
 
     public String getTemplate() {

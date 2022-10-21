@@ -18,6 +18,9 @@ public class CurvePoint implements Serializable {
     @Column(name ="Id")
     private Integer id;
 
+    @Column(name ="CurveId")
+    private Integer curveId;
+
     @Column(name ="asOfDate")
     private Date asOfDate;
 
@@ -25,8 +28,21 @@ public class CurvePoint implements Serializable {
     @Column(name ="term")
     private double term;
 
+    @Column(name="value")
+    private double value;
+
+
     @Column(name ="creationDate")
     private Date creationDate;
+
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
 
     public Integer getId() {
         return id;
@@ -34,6 +50,14 @@ public class CurvePoint implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getCurveId() {
+        return curveId;
+    }
+
+    public void setCurveId(Integer curveId) {
+        this.curveId = curveId;
     }
 
     public Date getAsOfDate() {

@@ -15,7 +15,7 @@ public class BidList implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name ="Id")
-    private Integer id;
+    private Integer bidListId;
 
     @Column(name ="account")
     @NotNull
@@ -26,7 +26,7 @@ public class BidList implements Serializable {
     private String type;
 
     @Column(name ="bidQuantity")
-    private double bidQuantitiy;
+    private double bidQuantity;
 
     @Column(name ="askQuantity")
     private double askQuantity;
@@ -82,12 +82,12 @@ public class BidList implements Serializable {
     @Column(name ="side")
     private String side;
 
-    public Integer getId() {
-        return id;
+    public Integer getBidListId() {
+        return bidListId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setBidListId(Integer bidListId) {
+        this.bidListId = bidListId;
     }
 
     public String getAccount() {
@@ -106,12 +106,12 @@ public class BidList implements Serializable {
         this.type = type;
     }
 
-    public double getBidQuantitiy() {
-        return bidQuantitiy;
+    public double getBidQuantity() {
+        return bidQuantity;
     }
 
-    public void setBidQuantitiy(double bidQuantitiy) {
-        this.bidQuantitiy = bidQuantitiy;
+    public void setBidQuantity(double bidQuantity) {
+        this.bidQuantity = bidQuantity;
     }
 
     public double getAskQuantity() {

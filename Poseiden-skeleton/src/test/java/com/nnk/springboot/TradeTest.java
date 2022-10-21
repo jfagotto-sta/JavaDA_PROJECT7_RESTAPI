@@ -5,6 +5,7 @@ import com.nnk.springboot.domain.User;
 import com.nnk.springboot.services.TradeService;
 import com.nnk.springboot.services.UserService;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +24,7 @@ public class TradeTest {
     @Autowired
     private TradeService tradeService;
 
-    @BeforeAll
+    @BeforeEach
     public void deleteall() {
         tradeService.deleteAll();
     }
@@ -49,7 +50,7 @@ public class TradeTest {
         assertTrue(listResult.size() > 0);
 
         // Delete
-        tradeService.deleteTrade(t.getId());
+        tradeService.deleteTrade(t.getTradeId());
         tradeService.deleteAll();
         assertTrue(tradeService.getAllTrades().size()==0);	}
 }

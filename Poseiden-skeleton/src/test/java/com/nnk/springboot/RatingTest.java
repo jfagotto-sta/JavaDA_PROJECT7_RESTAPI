@@ -5,6 +5,7 @@ import com.nnk.springboot.domain.User;
 import com.nnk.springboot.services.RatingService;
 import com.nnk.springboot.services.UserService;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +24,7 @@ public class RatingTest {
     @Autowired
     private RatingService ratingService;
 
-    @BeforeAll
+    @BeforeEach
     public void deleteall() {
         ratingService.deleteAll();
     }
@@ -31,7 +32,7 @@ public class RatingTest {
     @Test
     public void ratingTest() {
         Rating r = new Rating();
-        r.setMoodyRating("a");
+        r.setMoodysRating("a");
 
         // Save
         ratingService.saveNewRating(r);
@@ -39,9 +40,9 @@ public class RatingTest {
         assertNotNull(r2);
 
         // Update
-        r.setMoodyRating("ab");
+        r.setMoodysRating("ab");
         ratingService.saveNewRating(r);
-        assertTrue(r.getMoodyRating().equals("ab"));
+        assertTrue(r.getMoodysRating().equals("ab"));
 
         // Find
         List<Rating> listResult = ratingService.getAllRatings();

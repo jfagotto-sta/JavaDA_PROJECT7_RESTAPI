@@ -14,15 +14,15 @@ public class Trade implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name ="Id")
-    private Integer id;
+    @Column(name ="TradeId")
+    private Integer tradeId;
 
 
-    @Column(name ="account")
+    @Column(name ="aaccount")
     @NotNull
     private String account;
 
-    @Column(name ="type")
+    @Column(name ="ttype")
     @NotNull
     private String type;
 
@@ -41,10 +41,10 @@ public class Trade implements Serializable {
     @Column(name ="tradeDate")
     private Date tradeDate;
 
-    @Column(name ="security")
+    @Column(name ="ssecurity")
     private String security;
 
-    @Column(name ="status")
+    @Column(name ="sstatus")
     private String status;
 
     @Column(name ="trader")
@@ -87,12 +87,12 @@ public class Trade implements Serializable {
 
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getTradeId() {
+        return tradeId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setTradeId(Integer tradeId) {
+        this.tradeId = tradeId;
     }
 
     public String getAccount() {

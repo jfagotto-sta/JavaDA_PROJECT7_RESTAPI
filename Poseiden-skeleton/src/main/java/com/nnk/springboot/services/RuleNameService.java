@@ -1,6 +1,5 @@
 package com.nnk.springboot.services;
 
-import com.nnk.springboot.Utils.PasswordHashing;
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.RuleNameRepository;
