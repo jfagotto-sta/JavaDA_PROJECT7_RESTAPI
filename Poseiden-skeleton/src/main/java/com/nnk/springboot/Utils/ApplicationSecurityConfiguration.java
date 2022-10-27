@@ -72,6 +72,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
         }
     }
 
+    // TODO : auth google
 
     }
 

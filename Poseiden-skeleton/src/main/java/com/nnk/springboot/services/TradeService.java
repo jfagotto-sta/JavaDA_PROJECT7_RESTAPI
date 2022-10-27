@@ -15,8 +15,7 @@ public class TradeService {
     TradeRepository tradeRepository;
 
     public Trade getTradeById (Integer id){
-        Optional<Trade> t = tradeRepository.findById(id);
-        return t.get();
+       return tradeRepository.getById(id);
     }
 
     public List<Trade> getAllTrades(){
