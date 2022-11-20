@@ -95,7 +95,6 @@ public class RatingControllerTest {
                         content(u).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(redirectedUrl("/rating/list"));
 
-        //Mockito.doNothing().when(userService).deleteUser(anyInt());
 
         mockMvc.perform(get("/rating/delete/{id}","4"))
                 .andExpect(redirectedUrl("/rating/list"));

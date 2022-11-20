@@ -100,7 +100,6 @@ public class CurveControllerTest {
                         content(u).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(redirectedUrl("/curvePoint/list"));
 
-        //Mockito.doNothing().when(userService).deleteUser(anyInt());
 
         mockMvc.perform(get("/curvePoint/delete/{id}","4"))
                 .andExpect(redirectedUrl("/curvePoint/list"));

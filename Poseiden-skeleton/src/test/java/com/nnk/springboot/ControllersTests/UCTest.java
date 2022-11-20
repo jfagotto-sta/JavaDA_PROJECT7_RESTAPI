@@ -100,7 +100,6 @@ public class UCTest {
                 content(u).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(redirectedUrl("/user/list"));
 
-        //Mockito.doNothing().when(userService).deleteUser(anyInt());
 
         mockMvc.perform(get("/user/delete/{id}","4"))
                 .andExpect(redirectedUrl("/user/list"));
@@ -112,7 +111,6 @@ public class UCTest {
 
         mockMvc.perform(get("/user/list"))
                 .andExpect(status().is4xxClientError());
-        // .andExpect(model().attribute("users",containsInAnyOrder(user1,user2)));
     }
 
 }

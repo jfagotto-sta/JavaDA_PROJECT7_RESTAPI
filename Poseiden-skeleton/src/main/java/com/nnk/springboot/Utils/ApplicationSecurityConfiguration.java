@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.core.env.StandardEnvironment;
-import org.springframework.core.env.SystemEnvironmentPropertySource;
-import org.springframework.http.HttpMethod;
+
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,9 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
 
-import java.util.Properties;
 
 @EnableWebSecurity
 @Configuration
@@ -37,7 +33,6 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
         encode.encode("test");
         auth.authenticationProvider(provider());
@@ -63,6 +58,8 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                     .antMatchers("/**").permitAll().anyRequest().authenticated().and()
                     .csrf().disable()
                     .formLogin()  // #8
+                    .and()
+                    .oauth2Login()
                     //.loginPage("/login") //
                     .defaultSuccessUrl("/trade/list")
                     .permitAll()
@@ -71,8 +68,6 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
                     .permitAll(); // #5
         }
     }
-
-    // TODO : auth google
 
     }
 

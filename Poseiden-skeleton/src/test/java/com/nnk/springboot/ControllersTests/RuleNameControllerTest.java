@@ -91,7 +91,6 @@ public class RuleNameControllerTest {
                         content(u).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(redirectedUrl("/ruleName/list"));
 
-        //Mockito.doNothing().when(userService).deleteUser(anyInt());
 
         mockMvc.perform(get("/ruleName/delete/{id}","4"))
                 .andExpect(redirectedUrl("/ruleName/list"));

@@ -97,7 +97,6 @@ public class BidListControllerTest {
                         content(u).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(redirectedUrl("/bidList/list"));
 
-        //Mockito.doNothing().when(userService).deleteUser(anyInt());
 
         mockMvc.perform(get("/bidList/delete/{id}","4"))
                 .andExpect(redirectedUrl("/bidList/list"));

@@ -101,7 +101,6 @@ public class TradeControllerTest {
                         content(t).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(redirectedUrl("/trade/list"));
 
-        //Mockito.doNothing().when(userService).deleteUser(anyInt());
 
         mockMvc.perform(get("/trade/delete/{id}","4"))
                 .andExpect(redirectedUrl("/trade/list"));
